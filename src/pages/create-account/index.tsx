@@ -1,14 +1,17 @@
 import Layout from "@/components/layout";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
-import { useRouter } from "next/router";
 import { useState } from "react";
+import useMutation from "@/libs/client/useMutation";
 
 interface AccountFormData {
   name : string;
   email: string;
   password: string;
-  password2:string;
+}
+
+interface MutationResult {
+  ok: boolean;
 }
 
 const CreateAccount = () => {
@@ -21,11 +24,17 @@ const CreateAccount = () => {
   });
   const [createAccount,setCreateAccount]=useState(false);
   const [formData,setFormData]=useState<AccountFormData|undefined>(undefined);
+  
+  const [create, { loading, data, error }] =
+  useMutation<MutationResult>("/api/users/create");
+  
   const onAccountValid=(data:AccountFormData)=>{
     setCreateAccount(true);
     setFormData(data);
+    create(data);
   }
-  const router = useRouter();
+  
+  
   return (
     <Layout title="Twitter-Log In">
       <main className="bg-blue-400 flex flex-col w-screen h-screen items-center">
