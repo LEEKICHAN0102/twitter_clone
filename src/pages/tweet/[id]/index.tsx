@@ -9,21 +9,17 @@ const Tweet = () => {
           twitter-트윗
         </title>
         <div className="pt-12 font-bold text-white text-2xl">
-          Twitter-Home
+          Twitter-tweet
         </div>
-        <Link href="/tweet/id">
-          <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-full mt-12 bg-white flex flex-col">
-            <span className="ml-12 font-bold text-2xl">name</span>
-            <span className="ml-12 mt-4">트위터를 어떻게 쓰나요?</span>
+        <div className="bg-white w-1/2 h-1/2 rounded-2xl mt-24 flex flex-col p-12">
+          <span className="font-bold text-2xl">name</span>
+          <span className="mt-4">트위터를 어떻게 쓰나요?</span>
+          <div className="flex flex-col flex-grow justify-end">
+            <div className="flex justify-around space-x-8">
+              <button className="bg-blue-400 border-2 border-gray-700 rounded-xl w-screen p-2 text-white">Tweet</button>
+              <button className="bg-blue-400 border-2 border-gray-700 rounded-xl w-screen p-2 text-white">😍</button>
+            </div>
           </div>
-        </Link>
-        <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-full mt-12 bg-white flex flex-col">
-          <span className="ml-12 font-bold text-2xl">name</span>
-          <span className="ml-12 mt-4">트위터를 어떻게 쓰나요?</span>
-        </div>
-        <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-full mt-12 bg-white flex flex-col">
-          <span className="ml-12 font-bold text-2xl">name</span>
-          <span className="ml-12 mt-4">트위터를 어떻게 쓰나요?</span>
         </div>
       </main>
     </Layout>
