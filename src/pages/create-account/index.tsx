@@ -3,6 +3,7 @@ import Link from "next/link";
 import {useForm} from "react-hook-form";
 import { useState } from "react";
 import useMutation from "@/libs/client/useMutation";
+import Loading from "@/components/loading";
 
 interface AccountFormData {
   name : string;
@@ -24,7 +25,6 @@ const CreateAccount = () => {
   });
   const [createAccount,setCreateAccount]=useState(false);
   const [formData,setFormData]=useState<AccountFormData|undefined>(undefined);
-  
   const [create, { loading, data, error }] =
   useMutation<MutationResult>("/api/users/create");
   
@@ -72,7 +72,13 @@ const CreateAccount = () => {
           <div className="ml-4 text-red-400 font-bold">
             {errors.password?.message}
           </div>
+          {loading ? (
+            <div className="bg-black cursor-pointer rounded-full p-2 pl-36">
+              <Loading />
+            </div>
+          ) : (
           <input className="bg-black text-white rounded-full p-2 focus:border-2 focus:border-yellow-500" type="submit" value="Create Account"/>
+        )}
         </form>
         <span className="text-white font-bold mt-4">
           로그인 하시겠어요? &rarr; 

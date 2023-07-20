@@ -3,10 +3,16 @@ import Link from "next/link";
 import {useForm} from "react-hook-form";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Loading from "@/components/loading";
+import useMutation from "@/libs/client/useMutation";
 
 interface LoginFormData {
   email: string;
   password: string;
+}
+
+interface MutationResult {
+  ok: boolean;
 }
 
 const Login = () => {
@@ -19,6 +25,8 @@ const Login = () => {
   });
   const [loggedIn,setLoggedIn]=useState(false);
   const [formData,setFormData]=useState<LoginFormData|undefined>(undefined);
+  const [login, { loading, data, error }] =
+  useMutation<MutationResult>("/api/users/login");
   const onValid=(data:LoginFormData)=>{
     setLoggedIn(true);
     setFormData(data);
@@ -54,7 +62,13 @@ const Login = () => {
           <div className="ml-4 text-red-400 font-bold">
             {errors.password?.message}
           </div>
+          {loading ? (
+            <div className="bg-black cursor-pointer rounded-full p-2 pl-36">
+              <Loading />
+            </div>
+          ) : (
           <input className="bg-black text-white rounded-full p-2 focus:border-2 focus:border-yellow-500" type="submit" value="Log In"/>
+        )}
         </form>
         <span className="text-white font-bold mt-4">
           계정이 없으신가요? &rarr; 
