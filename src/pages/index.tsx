@@ -26,6 +26,7 @@ const Home = () => {
                 <h1 className="font-bold text-xl ml-4 flex items-center">Twitter-clone</h1>
               </div>
         </Link>
+        <span>{} 님의 계정</span>
         <div className="flex flex-col items-center">
             <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-2xl mt-12 bg-white flex flex-col p-4 ">
               <span className="font-bold text-2xl">name</span>

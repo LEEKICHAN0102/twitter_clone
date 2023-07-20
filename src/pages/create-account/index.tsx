@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import { useState } from "react";
 import useMutation from "@/libs/client/useMutation";
 import Loading from "@/components/loading";
+import { useRouter } from "next/router";
 
 interface AccountFormData {
   name : string;
@@ -24,16 +25,15 @@ const CreateAccount = () => {
     mode: "onChange",
   });
   const [createAccount,setCreateAccount]=useState(false);
-  const [formData,setFormData]=useState<AccountFormData|undefined>(undefined);
   const [create, { loading, data, error }] =
   useMutation<MutationResult>("/api/users/create");
-  
-  const onAccountValid=(data:AccountFormData)=>{
+  const router=useRouter();
+  const onAccountValid=(validForm:AccountFormData)=>{
     setCreateAccount(true);
-    setFormData(data);
-    create(data);
+    create(validForm);
+    router.push("/log-in");
   }
-  
+
   
   return (
     <Layout title="Twitter-Log In">

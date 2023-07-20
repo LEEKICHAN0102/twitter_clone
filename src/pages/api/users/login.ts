@@ -7,6 +7,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  const {email,password}=req.body;
   const profile = await client.user.findUnique({
     where: { id: req.session.user?.id },
   });

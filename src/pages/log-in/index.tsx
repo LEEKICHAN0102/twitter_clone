@@ -1,10 +1,10 @@
 import Layout from "@/components/layout";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "@/components/loading";
 import useMutation from "@/libs/client/useMutation";
+import { useRouter } from "next/router";
 
 interface LoginFormData {
   email: string;
@@ -24,14 +24,14 @@ const Login = () => {
     mode: "onChange",
   });
   const [loggedIn,setLoggedIn]=useState(false);
-  const [formData,setFormData]=useState<LoginFormData|undefined>(undefined);
   const [login, { loading, data, error }] =
   useMutation<MutationResult>("/api/users/login");
+  const router=useRouter();
   const onValid=(data:LoginFormData)=>{
     setLoggedIn(true);
-    setFormData(data);
+    login(data);
+    router.push("/");
   }
-  const router = useRouter();
   return (
     <Layout title="Twitter-Log In">
       <main className="bg-blue-400 flex flex-col w-screen h-screen items-center">
