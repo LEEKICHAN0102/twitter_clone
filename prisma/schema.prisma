@@ -18,4 +18,26 @@ model User{
   password  String 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  tweets    Tweet[]
+  fav       Fav[]
+}
+
+model Tweet{
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  favs       Fav[]
+}
+
+model Fav{
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  tweet       Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade) 
+  tweetId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
