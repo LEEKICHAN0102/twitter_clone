@@ -5,6 +5,7 @@ import { useState } from "react";
 import Loading from "@/components/loading";
 import useMutation from "@/libs/client/useMutation";
 import { useRouter } from "next/router";
+import useUser from "@/libs/client/useUser";
 
 interface LoginFormData {
   email: string;
@@ -16,6 +17,7 @@ interface MutationResult {
 }
 
 const Login = () => {
+  useUser();
   const {
     register,
     handleSubmit,
@@ -23,14 +25,11 @@ const Login = () => {
   }=useForm<LoginFormData>({
     mode: "onChange",
   });
-  const [loggedIn,setLoggedIn]=useState(false);
   const [login, { loading, data, error }] =
   useMutation<MutationResult>("/api/users/login");
   const router=useRouter();
-  const onValid=(data:LoginFormData)=>{
-    setLoggedIn(true);
-    login(data);
-    router.push("/");
+  const onValid=(validForm:LoginFormData)=>{
+    login(validForm);
   }
   return (
     <Layout title="Twitter-Log In">

@@ -1,15 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
 
-export default async function createHandler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "에러 ㅠㅠ" });
-    return;
-  }
-
   const { name, email, password } = req.body;
   
   try {
@@ -35,3 +31,7 @@ export default async function createHandler(
     res.status(405).json({ message: "에러 ㅠㅠ" });
   }
 }
+
+  export default withHandler(
+    { methods: ["POST"], handler, isPrivate: false }
+  );

@@ -24,12 +24,10 @@ const CreateAccount = () => {
   }=useForm<AccountFormData>({
     mode: "onChange",
   });
-  const [createAccount,setCreateAccount]=useState(false);
   const [create, { loading, data, error }] =
   useMutation<MutationResult>("/api/users/create");
   const router=useRouter();
   const onAccountValid=(validForm:AccountFormData)=>{
-    setCreateAccount(true);
     create(validForm);
     router.push("/log-in");
   }
