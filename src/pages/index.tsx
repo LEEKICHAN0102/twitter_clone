@@ -6,7 +6,7 @@ import Link from "next/link";
 
 
 const Home = () => {
-  const { user, isLoading } = useUser();
+  useUser();
   // const { data } = useSWR<TweetResponse>("/api/users/tweet");
 
   return (

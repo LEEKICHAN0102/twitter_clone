@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import Loading from "@/components/loading";
 import useMutation from "@/libs/client/useMutation";
 import { useRouter } from "next/router";
-import useUser from "@/libs/client/useUser";
 
 interface LoginFormData {
   email: string;
@@ -18,7 +17,6 @@ interface MutationResult {
 }
 
 const Login = () => {
-  useUser();
   const {
     register,
     handleSubmit,
