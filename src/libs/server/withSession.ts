@@ -9,7 +9,7 @@ declare module "iron-session" {
 }
 
 const cookieOptions = {
-  cookieName: "twittersession",
+  cookieName: "twitter-session",
   password: process.env.COOKIE_PASSWORD!,
 };
 

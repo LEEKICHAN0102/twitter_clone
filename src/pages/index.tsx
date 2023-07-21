@@ -1,12 +1,14 @@
 import Layout from "@/components/layout";
 import useUser from "@/libs/client/useUser";
+import useSWR from "swr";
 import Link from "next/link";
 
 
 
 const Home = () => {
   const { user, isLoading } = useUser();
-  
+  // const { data } = useSWR<TweetResponse>("/api/users/tweet");
+
   return (
     <Layout title="twitter-home">
       <main className="bg-blue-400 flex flex-col w-screen h-screen">

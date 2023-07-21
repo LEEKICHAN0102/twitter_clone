@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
-import { useState } from "react";
+import { useEffect } from "react";
 import Loading from "@/components/loading";
 import useMutation from "@/libs/client/useMutation";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ interface LoginFormData {
 
 interface MutationResult {
   ok: boolean;
+  error?:string;
 }
 
 const Login = () => {
@@ -21,13 +22,22 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
   }=useForm<LoginFormData>({
     mode: "onChange",
   });
-  const [login, { loading, data, error }] =
+  const [login, { loading, data }] =
   useMutation<MutationResult>("/api/users/login");
   const router=useRouter();
+  useEffect(() => {
+    if (data?.ok) {
+      alert("로그인 성공");
+      router.push("/");
+    } else if (data?.error) {
+      alert(data.error);
+      reset();
+    }
+  }, [data, router,reset]);
   const onValid=(validForm:LoginFormData)=>{
     login(validForm);
   }
@@ -37,7 +47,7 @@ const Login = () => {
         <title>
           twitter 로그인
         </title>
-        <header className="pt-12 font-bold text-3xl text-white">로그인</header>
+        <header className="pt-12 font-bold text-3xl text-white">Twitter 로그인</header>
         <div className="text-white mt-12">
           <svg
             className="w-20 h-20"
@@ -51,16 +61,12 @@ const Login = () => {
         <form onSubmit={handleSubmit(onValid)} className="mt-12 flex flex-col space-y-6 w-80">
           <input {...register("email",{
             required:"E-mail을 입력해주세요",
-          })} className={errors.email ? "focus:border-4 focus:border-red-400 rounded-full p-2":"focus:border-4 focus:border-green-400 rounded-full p-2"} placeholder="E-mail" type="email"/>
-          <div className="ml-4 text-red-400 font-bold">
-            {errors.email?.message}
-          </div>
+          })} className="rounded-full p-2" placeholder="E-mail" type="email"/>
+          
           <input {...register("password",{
             required:"비밀번호를 입력해주세요",
-          })} className={errors.password? "focus:border-4 focus:border-red-400 rounded-full p-2" :"focus:border-4 focus:border-green-400 rounded-full p-2"} placeholder="password" type="password"/>
-          <div className="ml-4 text-red-400 font-bold">
-            {errors.password?.message}
-          </div>
+          })} className="rounded-full p-2" placeholder="password" type="password"/>
+          
           {loading ? (
             <div className="bg-black cursor-pointer rounded-full p-2 pl-36">
               <Loading />

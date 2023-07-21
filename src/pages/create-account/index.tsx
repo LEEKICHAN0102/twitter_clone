@@ -1,10 +1,11 @@
 import Layout from "@/components/layout";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
-import { useState } from "react";
+import { useEffect } from "react";
 import useMutation from "@/libs/client/useMutation";
 import Loading from "@/components/loading";
 import { useRouter } from "next/router";
+
 
 interface AccountFormData {
   name : string;
@@ -14,25 +15,33 @@ interface AccountFormData {
 
 interface MutationResult {
   ok: boolean;
+  error?:string;
 }
 
 const CreateAccount = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   }=useForm<AccountFormData>({
     mode: "onChange",
   });
-  const [create, { loading, data, error }] =
+  const [create, { loading, data }] =
   useMutation<MutationResult>("/api/users/create");
   const router=useRouter();
+  useEffect(()=>{
+    if (data?.ok) {
+      alert("회원가입에 성공하였습니다.");
+      router.push("/log-in");
+    } else if (data?.error) {
+      alert(data.error);
+      reset();
+    }
+  }, [data, router,reset]);
   const onAccountValid=(validForm:AccountFormData)=>{
     create(validForm);
-    router.push("/log-in");
   }
-
-  
   return (
     <Layout title="Twitter-Log In">
       <main className="bg-blue-400 flex flex-col w-screen h-screen items-center">
