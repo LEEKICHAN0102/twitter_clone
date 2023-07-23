@@ -1,4 +1,11 @@
 import Layout from "@/components/layout";
+import { useForm } from "react-hook-form";
+import useMutation from "@/libs/client/useMutation";
+
+interface TweetFormData {
+  content: string;
+}
+
 
 const Write = () => {
   return (
