@@ -18,16 +18,18 @@ async function handler(
     });
 
     if (!validUser) {
-      return res.status(400).json({ ok: false, error: "이메일 혹은 패스워드가 잘못되었습니다" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "이메일 혹은 패스워드가 잘못되었습니다" });
     }
-    if (validUser) {
-      req.session.user = {
-        id: validUser.id,
-      };
-      await req.session.save();
 
-      return res.json({ ok: true, message: "로그인 성공", validUser });
-    }
+    req.session.user = {
+      id: validUser.id,
+    };
+
+    await req.session.save();
+
+    return res.json({ ok: true, message: "로그인 성공", validUser });
   } catch (error) {
     return res.status(500).json({ ok: false, error: "로그인에 실패" });
   }

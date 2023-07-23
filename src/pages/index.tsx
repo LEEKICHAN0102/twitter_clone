@@ -1,13 +1,20 @@
 import Layout from "@/components/layout";
 import useUser from "@/libs/client/useUser";
+import { Tweet } from "@prisma/client";
 import useSWR from "swr";
 import Link from "next/link";
+import TweetContent from "@/components/tweetContent";
+import Loading from "@/components/loading";
 
-
+interface TweetResponse {
+  ok: boolean;
+  tweets: Tweet[];
+}
 
 const Home = () => {
-  useUser();
-  // const { data } = useSWR<TweetResponse>("/api/users/tweet");
+  const { user, isLoading } = useUser();
+  const { data } = useSWR<TweetResponse>("/api/products");
+
 
   return (
     <Layout title="twitter-home">
@@ -28,20 +35,18 @@ const Home = () => {
                 <h1 className="font-bold text-xl ml-4 flex items-center">Twitter-clone</h1>
               </div>
         </Link>
-        <span>{} 님의 계정</span>
         <div className="flex flex-col items-center">
-            <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-2xl mt-12 bg-white flex flex-col p-4 ">
-              <span className="font-bold text-2xl">name</span>
-              <span className="mt-4">트위터를 어떻게 쓰나요?</span>
-            </div>
-            <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-2xl mt-12 bg-white flex flex-col p-4 ">
-              <span className="font-bold text-2xl">name</span>
-              <span className="mt-4">트위터를 어떻게 쓰나요?</span>
-            </div>
-            <div  className="w-1/2 h-32 border-2  border-black shadow-xl shadow-blue-300 rounded-2xl mt-12 bg-white flex flex-col p-4 ">
-              <span className="font-bold text-2xl">name</span>
-              <span className="mt-4">트위터를 어떻게 쓰나요?</span>
-            </div>
+            {isLoading ? (
+              <Loading/>
+            ) : (
+              data?.tweets?.map((tweet) => (
+                <TweetContent
+                  id={tweet.id}
+                  key={tweet.id}
+                  content={tweet.content}
+                />
+              ))
+            )}
             <Link href="/write-tweet">
               <div className="bg-white rounded-full border-2 border-gray-500 p-4 fixed bottom-12 right-12">
                 <svg 
